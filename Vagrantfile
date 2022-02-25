@@ -23,8 +23,10 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # port for mysql server
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
+
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
@@ -55,7 +57,7 @@ Vagrant.configure("2") do |config|
   #
   #   # Customize the amount of memory on the VM:
     vb.memory = "4096"
-	#vb.cpu = "4"
+	  vb.cpus = "4"
   end
   #
   # View the documentation for the provider you are using for more
@@ -67,7 +69,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
    # Installing MySQL
    sudo apt-get -y install mysql-server mysql-client
-   # MySQL Setting
+   # MySQL init & setting
    sudo mysql -u root -e "
    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
    
