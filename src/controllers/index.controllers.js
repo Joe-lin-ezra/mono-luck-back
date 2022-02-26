@@ -1,4 +1,4 @@
-const db = require('../services/db.service')
+const {Locker, Registration, User} = require('../models/index');
 
 registerLocker = (req, res) => {
     const phoneNumber = req.body.phoneNumber;
@@ -6,14 +6,6 @@ registerLocker = (req, res) => {
     if(!db.findPhoneNumber(phoneNumber)) {
         res.status(404).json({ message: 'Phone number not found'})
     }
-    /**
-     * !because of db changed, we need not check membership
-     * todo: check if conditions
-     */
-    // if membership is not enable to use locker
-    // if(db.checkMembership(phoneNumber)) {
-    //     res.status(403).json({ message: 'membership is not enabled to use locker'})
-    // }
 
     if(db.verifyDuplicateRegisterLocker(phoneNumber)) {
         res.status(403).json({ message: 'Duplicate registration'})
