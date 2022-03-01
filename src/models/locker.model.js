@@ -1,34 +1,20 @@
-const mysql = require('./mysql');
-
-export class Locker {
-    Constructor() {
-        this.encoding;
-        this.userCardId;
-    }
-
-    static create = (Locker) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`SELECT * FROM USER JOIN LOCKER \
-            ON USER.userCardId=LOCKER.userCardId\
-            WHERE phoneNumber=${phoneNumber}`, 
-            (err, re) => {
-                if(err) throw err;
-                result(null, re)
-            });
-        });
-    }
-
-    static findByPhoneNumber = (phoneNumber, result) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`SELECT * FROM USER JOIN LOCKER \
-            ON USER.userCardId=LOCKER.userCardId\
-            WHERE phoneNumber=${phoneNumber}`, 
-            (err, re) => {
-                if(err) throw err;
-                result(null, re)
-            });
-        });
-    }
-}
+module.exports = (sequelize, Sequelize) => {
+    const Locker = sequelize.define("lucker", {
+        luckerId: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        luckerEncoding: {
+            type: Sequelize.STRING
+        },
+        userCardId: {
+            type: Sequelize.STRING
+        }
+    }, {
+        freezeTableName: true,
+        createdAt: false,
+        updatedAt: false
+    });
+    return Locker;
+};

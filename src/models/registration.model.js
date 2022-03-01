@@ -1,29 +1,20 @@
-const mysql = require('./mysql');
-
-export class Registration {
-    Constructor() {
-        this.phoneNumber;
-        this.priority;
-    }
-    
-    static create = (newRegistration, result) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`INSERT INTO REGISTRATION SET ?`, newRegistration, 
-            (err) => {
-                if(err) throw err;
-            });
-        });
-    }
-
-    static findByPhoneNumber = (phoneNumber, result) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`SELECT * FROM REGISTRATION WHERE phone=${ phoneNumber }`, 
-            (err, res) => {
-                if(err) throw err;
-                result(null, res);
-            });
-        });
-    }    
-}
+module.exports = (sequelize, Sequelize) => {
+    const Registration = sequelize.define("registration", {
+        registerId: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        phone: {
+            type: Sequelize.STRING
+        },
+        lockerNo: {
+            type: Sequelize.STRING
+        }
+    }, {
+        freezeTableName: true,
+        createdAt: false,
+        updatedAt: false
+    });
+    return Registration;
+};

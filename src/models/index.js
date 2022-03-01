@@ -1,9 +1,23 @@
-const Locker = require('./locker.model');
-const Registration = require('./registration.model');
-const User = require('./user.model');
+const config = require("../configs/db.config.js");
 
-export default {
-    Locker,
-    Registration,
-    User,
-};
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(
+    config.db,
+    config.user,
+    config.password,
+    {
+        host: config.host,
+        dialect: config.dialect,
+    }
+);
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.locker = require("./locker.model.js")(sequelize, Sequelize);
+db.registration = require("./registration.model.js")(sequelize, Sequelize);
+
+module.exports = db;

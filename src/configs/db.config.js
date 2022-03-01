@@ -1,8 +1,8 @@
-export const config = {
+module.exports  = {
     host: 'localhost',
     port: 3306,
     db: 'mono',
-    user: 'root',
-    password: 'root',
-    connectionLimit: 10,
+    user: 'remote',
+    password: 'remote',
+    dialect: 'mysql',
 }
