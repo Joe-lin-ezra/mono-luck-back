@@ -1,40 +1,43 @@
-const {Locker, Registration, User} = require('../models/index');
+import { userService }  from '../services/userService.js';
+import { lockerService } from '../services/lockerService.js';
+import { lockerRegistrationService } from '../services/lockerRegistrationService.js';
 
-registerLocker = (req, res) => {
-    const phoneNumber = req.body.phoneNumber;
-    // if phoneNumber not found
-    if(!db.findPhoneNumber(phoneNumber)) {
-        res.status(404).json({ message: 'Phone number not found'})
-    }
-
-    if(db.verifyDuplicateRegisterLocker(phoneNumber)) {
-        res.status(403).json({ message: 'Duplicate registration'})
-    }
-
-    let result = await insertLockerPriority(phoneNumber, req.body.priority);
-    res.status(200).json({ message: 'success' })
+export function registerLocker(req, res) {
+    // const phoneNumber = req.body.phoneNumber;
+    // Registration.create(phoneNumber, (err, sequence) => {
+    //     if(err) {
+    //         res.status(500).json({ message: err.message });
+    //         return;
+    //     }
+    //     res.status(200).json({ id: sequence, message: 'success' });
+    //     return;
+    // });
 }
 
 
-searchLockerLottery = (req, res) => {
-    if(!db.findPhoneNumber(phoneNumber)) {
-        res.status(400).json({ message: 'membership error'});
+export function searchLockerLottery(req, res) {
+
+    const isSubscriber = await userService.isSubscriber(req.params.phone);
+    if(!isSubscriber) {
+        return res.status(404).json({ message: 'not subscriber' });
     }
 
-    if(!db.verifyDuplicateRegisterLocker(phoneNumber)) {
-        res.status(400).json({ message: 'registration not found' });
-    }
+    const isRegistered = await lockerRegistrationService.isRegistered(req.params.phone);
+    if(!isRegistered) {
+        return res.status(404).json({ message: 'not registered' });
+    }    
 
-    const outcome = db.findLocker(phoneNumber);
-    res.status(200).json(outcome);    
-}
-
-takeSpecificDocs = (req, res) => {
     
-}
-
-module.exports = {
-    registerLocker,
-    searchLockerLottery,
-    takeSpecificDocs
+    Locker.findByPhoneNumber(req.params.phone, (err, data) => {
+        if(err) {
+            return res.status(500).json({ message: err.message });
+        }
+        else if(data.length) {
+            return res.status(200).json(data);
+        }
+        else {
+            return next();
+        }
+    });
+    return;
 }

@@ -1,4 +1,5 @@
-const mysql = require('./mysql');
+import mysql from './mysql.mjs';
+const pool = mysql.pool;
 
 export class Locker {
     Constructor() {
@@ -6,29 +7,32 @@ export class Locker {
         this.userCardId;
     }
 
-    static create = (Locker) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`SELECT * FROM USER JOIN LOCKER \
-            ON USER.userCardId=LOCKER.userCardId\
-            WHERE phoneNumber=${phoneNumber}`, 
-            (err, re) => {
-                if(err) throw err;
-                result(null, re)
-            });
-        });
+    static create(Locker) {
+        // return new Promise((resolve, reject) => {
+        //     promisePool.getConnection()
+        //     .then((connection) => {
+        //         let rows  = connection.query(`INSERT INTO () VALUES $`);
+        //         connection.release();
+        //         return rows;
+        //     })
+        //     .then(rows => resolve(rows))
+        //     .catch(err => reject(err));
+        // });
     }
 
-    static findByPhoneNumber = (phoneNumber, result) => {
-        mysql.getConnection((err, conn) => {
-            if(err) throw err;
-            conn.query(`SELECT * FROM USER JOIN LOCKER \
-            ON USER.userCardId=LOCKER.userCardId\
-            WHERE phoneNumber=${phoneNumber}`, 
-            (err, re) => {
-                if(err) throw err;
-                result(null, re)
-            });
+    static findByPhoneNumber(phoneNumber, callback) {
+        pool.getConnection((err, connection) => {
+            if(err) {
+                callback(err, null);
+                return;
+            }
+            connection.query(
+                `SELECT * FROM USER JOIN LUCKER \
+                ON USER.userCardId=LUCKER.userCardId\
+                WHERE phone=${phoneNumber}`, (err, rows) => {
+                    callback(err, rows);
+                });
+                connection.release();
         });
     }
 }

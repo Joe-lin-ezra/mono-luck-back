@@ -1,26 +1,25 @@
-import { registerLocker, searchLockerLottery, takeSpecificDocs } from '../controllers/index.controllers';
+import { registerLocker, searchLockerLottery } from '../controllers/index.controllers.js';
 
-module.exports = function(router) {
-    
-    router.get('/home', (req, res) => {
-        res.render('home');
-    });
+export default (router) => {
 
-    router.get('/docs', (req, res) => {
+    /**
+     * temporally not use
+     */
+    router.get('/api/docs', (req, res) => {
         res.send();
     });
 
-    router.get('/docs/:id', takeSpecificDocs);
-
-    router.get('/registerPage', (req, res) =>{
-        res.render('registerPage');
+    /**
+     * temporally not use
+     */
+    router.get('/api/docs/:id', (req, res) => {
+        res.send();
     });
 
-    router.get('/searchPage', (req, res) => {
-        res.render('searchPage');
-    });
+    /**
+     * 
+     */
+    router.get('/api/lottery/:phone', searchLockerLottery);
 
-    router.get('/searchPage/:phone', searchLockerLottery);
-
-    router.post('/lockerRegister', registerLocker);
+    router.post('/api/registerLocker', registerLocker);
 }

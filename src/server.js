@@ -1,14 +1,16 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+
 const server = express();
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cors());
-server.use(express.static(__dirname + '/public'));
+server.use(express.static('/public'));
 
 const router = express.Router();
-require('./routes/index.routes')(router);
+import path from './routes/index.routes.js';
+path(router);
 
 server.use('/', router);
 
