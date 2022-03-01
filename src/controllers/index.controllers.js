@@ -1,40 +1,60 @@
-const {Locker, Registration, User} = require('../models/index');
+const db = require('../models/index.js');
+const userService = require('../services/userService.js');
+const registrationService = require('../services/registrationService.js');
+const lockerService = require('../services/lockerService.js');
 
-registerLocker = (req, res) => {
-    const phoneNumber = req.body.phoneNumber;
-    // if phoneNumber not found
-    if(!db.findPhoneNumber(phoneNumber)) {
-        res.status(404).json({ message: 'Phone number not found'})
+registerLocker = async (req, res) => {
+    try {
+        console.log(req.body)
+        const phoneNumber = req.body.phoneNumber;
+
+        const checkUser = await userService.isSubscriber(phoneNumber);
+        if(!checkUser) {
+            return res.status(404).json({ message: 'no this subscriber' });
+        }
+
+        const [user, created] = await registrationService.findOrCreate(req.body);
+        if(!created) {
+            return res.status(403).json({ message: 'no duplicated register'});
+        }
+        else {
+            return res.status(201).json(user);
+        }
     }
-
-    if(db.verifyDuplicateRegisterLocker(phoneNumber)) {
-        res.status(403).json({ message: 'Duplicate registration'})
+    catch (err) {
+        return res.status(500).json({ message: err.message });
     }
-
-    let result = await insertLockerPriority(phoneNumber, req.body.priority);
-    res.status(200).json({ message: 'success' })
 }
 
+searchLockerLottery = async (req, res) => {
+    try {
+        const phoneNumber = req.params.phoneNumber;
 
-searchLockerLottery = (req, res) => {
-    if(!db.findPhoneNumber(phoneNumber)) {
-        res.status(400).json({ message: 'membership error'});
+        const user = await userService.isSubscriber(phoneNumber);
+        if(!user) {
+            return res.status(404).json({ message: 'no this subscriber' });
+        }
+        
+        const registration = await registrationService.isRegistered(phoneNumber);
+        if(!registration) {
+            return res.status(404).json({ message: 'no registration'});
+        }
+
+        const { userCardId } = await userService.getUserCardIdByPhoneNumber(phoneNumber);
+        const locker = await lockerService.findLockerByUserCardId(userCardId);
+        if(!locker) {
+            return res.status(404).json({ message: 'no locker found' });
+        }
+        else {
+            return res.status(200).json(locker);
+        }
     }
-
-    if(!db.verifyDuplicateRegisterLocker(phoneNumber)) {
-        res.status(400).json({ message: 'registration not found' });
+    catch (err) {
+        return res.status(500).json({ message: err.message });
     }
-
-    const outcome = db.findLocker(phoneNumber);
-    res.status(200).json(outcome);    
-}
-
-takeSpecificDocs = (req, res) => {
-    
 }
 
 module.exports = {
     registerLocker,
     searchLockerLottery,
-    takeSpecificDocs
 }
