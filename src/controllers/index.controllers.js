@@ -35,19 +35,21 @@ searchLockerLottery = async (req, res) => {
             return res.status(404).json({ message: 'no this subscriber' });
         }
         
+        const { cardId } = await userService.getUserCardIdByPhoneNumber(phoneNumber);
+        const locker = await lockerService.findLockerByUserCardId(cardId);
+        if(locker) {
+            return res.status(200).json(locker);
+        }
+
         const registration = await registrationService.isRegistered(phoneNumber);
-        if(!registration) {
+        if(registration) {
+            return res.status(200).json({ message: 'waiting for drawing'});
+        }
+        else {
             return res.status(404).json({ message: 'no registration'});
         }
 
-        const { userCardId } = await userService.getUserCardIdByPhoneNumber(phoneNumber);
-        const locker = await lockerService.findLockerByUserCardId(userCardId);
-        if(!locker) {
-            return res.status(404).json({ message: 'no locker found' });
-        }
-        else {
-            return res.status(200).json(locker);
-        }
+        
     }
     catch (err) {
         return res.status(500).json({ message: err.message });
