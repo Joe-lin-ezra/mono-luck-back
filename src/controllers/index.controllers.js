@@ -7,7 +7,7 @@ registerLocker = async (req, res) => {
     try {
         console.log(req.body)
         const phoneNumber = req.body.phoneNumber;
-
+    
         const checkUser = await userService.isSubscriber(phoneNumber);
         if(!checkUser) {
             return res.status(404).json({ message: 'no this subscriber' });
