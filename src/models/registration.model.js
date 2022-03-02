@@ -1,20 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
-    const Registration = sequelize.define("registration", {
-        registerId: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+    const Registration = sequelize.define('registration', {
+        phoneNumber: {
+            type: Sequelize.STRING,
+            references: 'user',
+            referencesKey: 'phoneNumber'
         },
-        phone: {
-            type: Sequelize.STRING
-        },
-        lockerNo: {
+        priority: {
             type: Sequelize.STRING
         }
-    }, {
-        freezeTableName: true,
-        createdAt: false,
-        updatedAt: false
     });
     return Registration;
 };

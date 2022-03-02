@@ -7,7 +7,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING
         },
         userCardId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            references: 'users',
+            referencesKey: 'cardId'
         },
         createdAt: {
             type: Sequelize.DATE,
