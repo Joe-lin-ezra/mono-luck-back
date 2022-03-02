@@ -18,6 +18,6 @@ db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.locker = require("./locker.model.js")(sequelize, Sequelize);
-db.registration = require("./registration.model.js")(sequelize, Sequelize);
+db.lockerRegistration = require("./lockerRegistration.model.js")(sequelize, Sequelize);
 
 module.exports = db;

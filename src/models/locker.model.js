@@ -1,20 +1,22 @@
 module.exports = (sequelize, Sequelize) => {
-    const Locker = sequelize.define("lucker", {
-        luckerId: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
+    const Locker = sequelize.define("locker", {
+        lockerNo: {
+            type: Sequelize.STRING
         },
-        luckerEncoding: {
+        lockerEncoding: {
             type: Sequelize.STRING
         },
         userCardId: {
             type: Sequelize.STRING
+        },
+        createdAt: {
+            type: Sequelize.DATE,
+            allowNull: false
+        },
+        updatedAt: {
+            type: Sequelize.DATE,
+            allowNull: false
         }
-    }, {
-        freezeTableName: true,
-        createdAt: false,
-        updatedAt: false
     });
     return Locker;
 };
