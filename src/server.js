@@ -12,7 +12,7 @@ require('./routes/index.routes')(router);
 
 server.use('/', router);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 server.listen(PORT, (err) => {
     if(err) {
         console.log(err);

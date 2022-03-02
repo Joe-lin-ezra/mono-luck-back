@@ -16,8 +16,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("./user.model.js")(sequelize, Sequelize);
-db.locker = require("./locker.model.js")(sequelize, Sequelize);
-db.registration = require("./registration.model.js")(sequelize, Sequelize);
+db.users = require("./users.model.js")(sequelize, Sequelize);
+db.lockers = require("./lockers.model.js")(sequelize, Sequelize);
+db.registrations = require("./registrations.model.js")(sequelize, Sequelize);
 
 module.exports = db;

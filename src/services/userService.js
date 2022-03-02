@@ -1,19 +1,19 @@
 const db = require('../models/index.js');
 
-const isSubscriber = async (phone) => {
-    const user = await db.user.findOne({
+const isSubscriber = async (phoneNumber) => {
+    const user = await db.users.findOne({
         where: {
-            phone: phone
+            phoneNumber: phoneNumber
         }
     });
     // console.log(user)
     return user;
 }
 
-const getUserCardIdByPhoneNumber = async (phone) => {
-    const user = await db.user.findOne({
+const getUserCardIdByPhoneNumber = async (phoneNumber) => {
+    const user = await db.users.findOne({
         where: {
-            phone: phone
+            phoneNumber: phoneNumber
         }
     });
     return user.dataValues;

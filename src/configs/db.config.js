@@ -2,7 +2,7 @@ module.exports  = {
     host: 'localhost',
     port: 3306,
     db: 'mono',
-    user: 'remote',
-    password: 'remote',
+    user: 'root',
+    password: 'root',
     dialect: 'mysql',
 }

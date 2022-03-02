@@ -1,21 +1,21 @@
 const db = require('../models/index.js');
 
 const isRegistered = async (phoneNumber) => {
-    const registration = await db.registration.findOne({ 
+    const registration = await db.registrations.findOne({ 
         where: { 
-            phone: phoneNumber
+            phoneNumber: phoneNumber
         }
     });
     return registration;
 }
 
 const findOrCreate = async (registration) => {
-    const [user, created] = await db.registration.findOrCreate({
+    const [user, created] = await db.registrations.findOrCreate({
         where: {
-            phone: registration.phoneNumber
+            phoneNumber: registration.phoneNumber
         },
-        default: {
-            lockerNo: registration.priority
+        defaults: {
+            priority: registration.priority
         }
     });
     return [user, created];

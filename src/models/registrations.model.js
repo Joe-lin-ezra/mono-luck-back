@@ -1,14 +1,14 @@
 module.exports = (sequelize, Sequelize) => {
-    const Registration = sequelize.define("registration", {
-        registerId: {
+    const Registrations = sequelize.define("registrations", {
+        id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        phone: {
+        phoneNumber: {
             type: Sequelize.STRING
         },
-        lockerNo: {
+        priority: {
             type: Sequelize.STRING
         }
     }, {
@@ -16,5 +16,5 @@ module.exports = (sequelize, Sequelize) => {
         createdAt: false,
         updatedAt: false
     });
-    return Registration;
+    return Registrations;
 };

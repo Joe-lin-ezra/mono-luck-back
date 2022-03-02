@@ -1,14 +1,14 @@
 module.exports = (sequelize, Sequelize) => {
-    const Locker = sequelize.define("lucker", {
-        luckerId: {
+    const Lockers = sequelize.define("luckers", {
+        id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        luckerEncoding: {
+        lockerEncoding: {
             type: Sequelize.STRING
         },
-        userCardId: {
+        cardId: {
             type: Sequelize.STRING
         }
     }, {
@@ -16,5 +16,5 @@ module.exports = (sequelize, Sequelize) => {
         createdAt: false,
         updatedAt: false
     });
-    return Locker;
+    return Lockers;
 };
