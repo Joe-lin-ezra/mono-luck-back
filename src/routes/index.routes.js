@@ -10,7 +10,7 @@ module.exports = function(router) {
         res.send();
     });
 
-    router.get('/api/lottery/:phoneNumber', searchLockerLottery);
+    router.get('/api/lottery', searchLockerLottery);
 
     router.post('/api/registerLocker', registerLocker);
 }
