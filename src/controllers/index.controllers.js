@@ -5,17 +5,16 @@ const lockerService = require('../services/lockerService.js');
 
 registerLocker = async (req, res) => {
     try {
-        console.log(req.body)
         const phoneNumber = req.body.phoneNumber;
 
         const checkUser = await userService.isSubscriber(phoneNumber);
         if(!checkUser) {
-            return res.status(404).json({ message: 'no this subscriber' });
+            return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
         }
 
         const [user, created] = await registrationService.findOrCreate(req.body);
         if(!created) {
-            return res.status(403).json({ message: 'no duplicated register'});
+            return res.status(403).json({ message: '您已登記過鎖櫃!'});
         }
         else {
             return res.status(201).json(user);
@@ -28,25 +27,27 @@ registerLocker = async (req, res) => {
 
 searchLockerLottery = async (req, res) => {
     try {
-        const phoneNumber = req.params.phoneNumber;
+        const phoneNumber = req.query.phoneNumber;
 
         const user = await userService.isSubscriber(phoneNumber);
         if(!user) {
-            return res.status(404).json({ message: 'no this subscriber' });
+            return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
         }
         
         const { cardId } = await userService.getUserCardIdByPhoneNumber(phoneNumber);
         const locker = await lockerService.findLockerByUserCardId(cardId);
         if(locker) {
-            return res.status(200).json(locker);
+            return res.status(200).json({ message: '您抽中的鎖櫃為 - '+
+            locker.dataValues.lockerNo+' 號('+locker.dataValues.lockerEncoding+') 請向工作人員索取使用登記表簽名'});
         }
 
         const registration = await registrationService.isRegistered(phoneNumber);
         if(registration) {
-            return res.status(200).json({ message: 'waiting for drawing'});
+            //just for demo
+            return res.status(200).json({ message: '目前鎖櫃尚在登記中， 請在 12/12 AM 10 回來本系統查看中籤資訊'});
         }
         else {
-            return res.status(404).json({ message: 'no registration'});
+            return res.status(404).json({ message: '您還沒登記鎖櫃!'});
         }
 
         
