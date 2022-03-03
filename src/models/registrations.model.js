@@ -2,14 +2,17 @@ module.exports = (sequelize, Sequelize) => {
     const Registrations = sequelize.define("registrations", {
         id: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            allowNull: false,
+            type: Sequelize.STRING(15)
         },
         priority: {
-            type: Sequelize.STRING
+            allowNull: false,
+            type: Sequelize.STRING(10)
         }
     }, {
         freezeTableName: true,

@@ -2,17 +2,23 @@ module.exports = (sequelize, Sequelize) => {
     const Users = sequelize.define("users", {
         id: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
         name: {
-            type: Sequelize.STRING
+            allowNull: false,
+            type: Sequelize.STRING(40)
         },
         cardId: {
-            type: Sequelize.STRING
+            allowNull: false,
+            unique : true ,
+            type: Sequelize.STRING(10)
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            allowNull: false,
+            unique : true ,
+            type: Sequelize.STRING(15)
         }
     }, {
         freezeTableName: true,

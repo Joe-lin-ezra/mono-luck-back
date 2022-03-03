@@ -3,13 +3,20 @@ module.exports = (sequelize, Sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
+            allowNull: false,
             primaryKey: true
         },
+        lockerNo: {
+            allowNull: false,
+            unique : true ,
+            type: Sequelize.STRING(2)
+        },
         lockerEncoding: {
-            type: Sequelize.STRING
+            allowNull: false,
+            type: Sequelize.STRING(20)
         },
         cardId: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING(10)
         }
     }, {
         freezeTableName: true,
