@@ -1,8 +1,9 @@
+require('dotenv').config();
 module.exports  = {
-    host: 'localhost',
-    port: 3306,
-    db: 'mono',
-    user: 'root',
-    password: 'root',
-    dialect: 'mysql',
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    db: process.env.DATABASE_DB_NAME,
+    user: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    dialect: "mysql",
 }
