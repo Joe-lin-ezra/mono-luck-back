@@ -18,15 +18,17 @@ module.exports = {
         unique : true ,
         type: Sequelize.STRING(20)
       },
-      cardId: {
+      memberId: {
         allowNull: false,
         unique : true ,
-        type: Sequelize.STRING(10)
+        type: Sequelize.INTEGER
       },
       createdAt: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
+        allowNull: false,
         type: Sequelize.DATE
       }
     });

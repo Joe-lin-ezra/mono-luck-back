@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      phoneNumber: {
+      memberId: {
         allowNull: false,
         unique : true ,
         type: Sequelize.STRING(15)
@@ -18,9 +18,11 @@ module.exports = {
         type: Sequelize.STRING(10)
       },
       createdAt: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
+        allowNull: false,
         type: Sequelize.DATE
       }
     });
