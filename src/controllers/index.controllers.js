@@ -1,5 +1,5 @@
 const db = require('../models/index.js');
-const userService = require('../services/userService.js');
+const memberService = require('../services/memberService.js');
 const registrationService = require('../services/registrationService.js');
 const lockerService = require('../services/lockerService.js');
 
@@ -7,17 +7,17 @@ registerLocker = async (req, res) => {
     try {
         const phoneNumber = req.body.phoneNumber;
 
-        const checkUser = await userService.isSubscriber(phoneNumber);
-        if(!checkUser) {
+        const checkMember = await memberService.isSubscriber(phoneNumber);
+        if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
         }
 
-        const [user, created] = await registrationService.findOrCreate(req.body);
+        const [member, created] = await registrationService.findOrCreate(req.body);
         if(!created) {
             return res.status(403).json({ message: '您已登記過鎖櫃!'});
         }
         else {
-            return res.status(201).json(user);
+            return res.status(201).json(member);
         }
     }
     catch (err) {
@@ -29,13 +29,13 @@ searchLockerLottery = async (req, res) => {
     try {
         const phoneNumber = req.query.phoneNumber;
 
-        const user = await userService.isSubscriber(phoneNumber);
-        if(!user) {
+        const member = await memberService.isSubscriber(phoneNumber);
+        if(!member) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
         }
         
-        const { cardId } = await userService.getUserCardIdByPhoneNumber(phoneNumber);
-        const locker = await lockerService.findLockerByUserCardId(cardId);
+        const { cardId } = await memberService.getMemberCardIdByPhoneNumber(phoneNumber);
+        const locker = await lockerService.findLockerByMemberCardId(cardId);
         if(locker) {
             return res.status(200).json({ message: '您抽中的鎖櫃為 - '+
             locker.dataValues.lockerNo+' 號('+locker.dataValues.lockerEncoding+') 請向工作人員索取使用登記表簽名'});

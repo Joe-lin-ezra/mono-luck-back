@@ -34,7 +34,7 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.users = require("./users.js")(sequelize, Sequelize);
+db.members = require("./members.js")(sequelize, Sequelize);
 db.lockers = require("./lockers.js")(sequelize, Sequelize);
 db.registrations = require("./registrations.js")(sequelize, Sequelize);
 

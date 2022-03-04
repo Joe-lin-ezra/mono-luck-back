@@ -1,25 +1,24 @@
 const db = require('../models/index.js');
 
 const isSubscriber = async (phoneNumber) => {
-    const user = await db.users.findOne({
+    const member = await db.members.findOne({
         where: {
             phoneNumber: phoneNumber
         }
     });
-    // console.log(user)
-    return user;
+    return member;
 }
 
-const getUserCardIdByPhoneNumber = async (phoneNumber) => {
-    const user = await db.users.findOne({
+const getMemberCardIdByPhoneNumber = async (phoneNumber) => {
+    const member = await db.members.findOne({
         where: {
             phoneNumber: phoneNumber
         }
     });
-    return user.dataValues;
+    return member.dataValues;
 }
 
 module.exports = {
     isSubscriber,
-    getUserCardIdByPhoneNumber
+    getMemberCardIdByPhoneNumber
 }
