@@ -1,24 +1,24 @@
 const db = require('../models/index.js');
 
-const isRegistered = async (phone) => {
+const isRegistered = async (memberId) => {
     const registration = await db.registrations.findOne({ 
         where: { 
-            phone: phone
+            memberId: memberId
         }
     });
     return registration;
 }
 
-const findOrCreate = async (registration) => {
-    const [user, created] = await db.registrations.findOrCreate({
+const findOrCreate = async (memberId,priority) => {
+    const [member, created] = await db.registrations.findOrCreate({
         where: {
-            phone: registration.phone
+            memberId: memberId
         },
         defaults: {
-            priority: registration.priority
+            priority: priority
         }
     });
-    return [user, created];
+    return [member, created];
 }
 
 module.exports = {

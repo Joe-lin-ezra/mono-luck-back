@@ -1,14 +1,14 @@
 const db = require('../models/index.js');
 
-const findLockerByUserCardId = async (cardId) => {
+const findLockerByMemberId = async (memberId) => {
     const locker = await db.lockers.findOne({
         where: { 
-            cardId: cardId,
+            memberId: memberId,
         }
     });
     return locker;
 }
 
 module.exports = {
-    findLockerByUserCardId
+    findLockerByMemberId
 }
