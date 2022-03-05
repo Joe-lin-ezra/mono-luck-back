@@ -11,7 +11,7 @@ module.exports = {
       memberId: {
         allowNull: false,
         unique : true ,
-        type: Sequelize.STRING(15)
+        type: Sequelize.INTEGER
       },
       priority: {
         allowNull: false,

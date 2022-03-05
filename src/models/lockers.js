@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   LOCKERS.init({
     lockerNo: DataTypes.STRING,
     lockerEncoding: DataTypes.STRING,
-    cardId: DataTypes.STRING
+    memberId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'LOCKERS',

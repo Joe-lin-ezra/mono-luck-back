@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   REGISTRATIONS.init({
-    phoneNumber: DataTypes.STRING,
+    memberId: DataTypes.INTEGER,
     priority: DataTypes.STRING
   }, {
     sequelize,
