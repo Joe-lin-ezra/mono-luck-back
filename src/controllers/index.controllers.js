@@ -5,9 +5,8 @@ const lockerService = require('../services/lockerService.js');
 
 registerLocker = async (req, res) => {
     try {
-        const phoneNumber = req.body.phoneNumber;
-
-        const checkMember = await memberService.isSubscriber(phoneNumber);
+        const phone = req.body.phone;
+        const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
         }
@@ -21,6 +20,7 @@ registerLocker = async (req, res) => {
         }
     }
     catch (err) {
+        console.log(err);
         return res.status(500).json({ message: err.message });
     }
 }
