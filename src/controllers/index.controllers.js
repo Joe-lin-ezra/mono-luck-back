@@ -4,11 +4,19 @@ const registrationService = require('../services/registrationService.js');
 const lockerService = require('../services/lockerService.js');
 const phoneFormatter = require('../utils/phoneFormat.js')
 
+
+/*
+ * todo: add time detection, not allow user register after permitted time
+ */
 registerLocker = async (req, res) => {
     try {
+        // if(Date.now() > ) {
+        //     return res.status.json({ message: '登記抽籤時間已過' });
+        // }
+
         const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
         if(phone.length != 10 && req.body?.priority) {
-            return res.status(404).json({ message: '資料內容錯誤'});
+            return res.status(404).json({ message: '資料內容錯誤' });
         }
 
         const checkMember = await memberService.isSubscriber(phone);
@@ -29,6 +37,9 @@ registerLocker = async (req, res) => {
     }
 }
 
+/**
+ * todo: check date & time of "12/12 AM 10 回來本系統查看中籤資訊"
+ */
 searchLockerLottery = async (req, res) => {
     try {
         const phone = phoneFormatter.format886PhoneNumber(req.query.phone);//notice!! it's req.query!!
