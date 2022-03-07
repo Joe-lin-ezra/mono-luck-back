@@ -23,12 +23,15 @@ module.exports = {
       membership: {
         type: Sequelize.STRING(20)
       },
+      email:{
+        type: Sequelize.STRING(80)
+      },
       createdAt: {
-        //allowNull: false,
+        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        //allowNull: false,
+        allowNull: false,
         type: Sequelize.DATE
       }
     });

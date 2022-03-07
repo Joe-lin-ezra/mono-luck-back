@@ -4,8 +4,16 @@ const registrationService = require('../services/registrationService.js');
 const lockerService = require('../services/lockerService.js');
 const phoneFormatter = require('../utils/phoneFormat.js')
 
+
 registerLocker = async (req, res) => {
     try {
+        //time check
+        let nowDate = new Date();
+        let endDate = '2022/03/13 23:59:59';
+        if(Date.parse(nowDate).valueOf() > Date.parse(endDate).valueOf()) {
+            return res.status(404).json({ message: '登記抽籤時間已過' });
+        }
+
         const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
         if(phone.length != 10 || !req.body.priority) {
             return res.status(404).json({ message: '資料內容錯誤'});
@@ -29,6 +37,7 @@ registerLocker = async (req, res) => {
     }
 }
 
+
 searchLockerLottery = async (req, res) => {
     try {
         const phone = phoneFormatter.format886PhoneNumber(req.query.phone);//notice!! it's req.query!!
@@ -48,8 +57,7 @@ searchLockerLottery = async (req, res) => {
 
         const registration = await registrationService.isRegistered(checkMember.id);
         if(registration) {
-            //just for demo
-            return res.status(200).json({ message: '目前鎖櫃尚在登記中， 請在 12/12 AM 10 回來本系統查看中籤資訊'});
+            return res.status(200).json({ message: '目前鎖櫃尚在登記中，請在 03/14 中午 12:00 回來本系統查看中籤資訊'});
         }
         else {
             return res.status(404).json({ message: '您還沒登記鎖櫃!'});
