@@ -5,7 +5,7 @@ const lockerService = require('../services/lockerService.js');
 
 registerLocker = async (req, res) => {
     try {
-        const phone = req.body.phone;
+        const phone = re_phone(req.body.phone);
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
@@ -26,7 +26,7 @@ registerLocker = async (req, res) => {
 
 searchLockerLottery = async (req, res) => {
     try {
-        const phone = req.query.phone;
+        const phone = re_phone(req.query.phone); //notice!! it's req.query!!
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
@@ -53,6 +53,15 @@ searchLockerLottery = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 }
+
+//phone recheck(886)
+re_phone = phone => {
+    if(phone.indexOf('886')!=-1){
+        phone = phone.replace(/886/,'0');
+    }
+    return phone;
+}
+
 
 module.exports = {
     registerLocker,
