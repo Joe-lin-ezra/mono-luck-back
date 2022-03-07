@@ -7,7 +7,7 @@ const phoneFormatter = require('../utils/phoneFormat.js')
 registerLocker = async (req, res) => {
     try {
         const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
-        if(phone.length != 10 && req.body?.priority) {
+        if(phone.length != 10 || !req.body.priority) {
             return res.status(404).json({ message: '資料內容錯誤'});
         }
 
