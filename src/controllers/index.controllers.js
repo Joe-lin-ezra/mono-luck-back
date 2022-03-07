@@ -15,7 +15,7 @@ registerLocker = async (req, res) => {
         }
 
         const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
-        if(phone.length != 10 || !req.body.priority) {
+        if(phone.length == 0 || !req.body.priority) {
             return res.status(404).json({ message: '資料內容錯誤'});
         }
 
@@ -41,8 +41,8 @@ registerLocker = async (req, res) => {
 searchLockerLottery = async (req, res) => {
     try {
         const phone = phoneFormatter.format886PhoneNumber(req.query.phone);//notice!! it's req.query!!
-        if(phone.length != 10) {
-            return res.status(404).json({ message: '手機號碼錯誤'});
+        if(phone.length == 0) {
+            return res.status(404).json({ message: '資料內容錯誤'});
         } 
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
