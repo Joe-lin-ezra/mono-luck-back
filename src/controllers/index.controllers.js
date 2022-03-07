@@ -2,10 +2,15 @@ const db = require('../models/index.js');
 const memberService = require('../services/memberService.js');
 const registrationService = require('../services/registrationService.js');
 const lockerService = require('../services/lockerService.js');
+const phoneFormatter = require('../utils/phoneFormat.js')
 
 registerLocker = async (req, res) => {
     try {
-        const phone = re_phone(req.body.phone);
+        const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
+        if(phone.length != 10 && req.body?.priority) {
+            return res.status(404).json({ message: '資料內容錯誤'});
+        }
+
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
@@ -26,7 +31,10 @@ registerLocker = async (req, res) => {
 
 searchLockerLottery = async (req, res) => {
     try {
-        const phone = re_phone(req.query.phone); //notice!! it's req.query!!
+        const phone = phoneFormatter.format886PhoneNumber(req.query.phone);//notice!! it's req.query!!
+        if(phone.length != 10) {
+            return res.status(404).json({ message: '手機號碼錯誤'});
+        } 
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
             return res.status(404).json({ message: '非暢遊會員,無法登記鎖櫃!' });
@@ -46,22 +54,11 @@ searchLockerLottery = async (req, res) => {
         else {
             return res.status(404).json({ message: '您還沒登記鎖櫃!'});
         }
-
-        
     }
     catch (err) {
         return res.status(500).json({ message: err.message });
     }
 }
-
-//phone recheck(886)
-re_phone = phone => {
-    if(phone.indexOf('886')!=-1){
-        phone = phone.replace(/886/,'0');
-    }
-    return phone;
-}
-
 
 module.exports = {
     registerLocker,
