@@ -1,25 +1,21 @@
 require('dotenv').config();
 module.exports = {
     "development": {
-        "host": process.env.DATABASE_HOST,
-        "database": process.env.DATABASE_DB_NAME,
-        "username": process.env.DATABASE_USERNAME,
-        "password": process.env.DATABASE_PASSWORD,
+        "use_env_variable": "DATABASE_URL",
+        "protocol": "postgres",
         "dialect": "postgres",
         "dialectOptions": {"ssl": {"require": true,"rejectUnauthorized": false}} 
     },
     "test": {
-        "host": process.env.DATABASE_HOST,
-        "database": process.env.DATABASE_DB_NAME,
-        "username": process.env.DATABASE_USERNAME,
-        "password": process.env.DATABASE_PASSWORD,
-        "dialect": "mysql"
+        "use_env_variable": "DATABASE_URL",
+        "protocol": "postgres",
+        "dialect": "postgres",
+        "dialectOptions": {"ssl": {"require": true,"rejectUnauthorized": false}} 
     },
     "production": {
-        "host": process.env.DATABASE_HOST,
-        "database": process.env.DATABASE_DB_NAME,
-        "username": process.env.DATABASE_USERNAME,
-        "password": process.env.DATABASE_PASSWORD,
-        "dialect": "mysql"
+        "use_env_variable": "DATABASE_URL",
+        "protocol": "postgres",
+        "dialect": "postgres",
+        "dialectOptions": {"ssl": {"require": true,"rejectUnauthorized": false}} 
     }
 };
