@@ -3,6 +3,7 @@ const memberService = require('../services/memberService.js');
 const registrationService = require('../services/registrationService.js');
 const lockerService = require('../services/lockerService.js');
 const phoneFormatter = require('../utils/phoneFormat.js')
+const reqBodyCheck = require('../utils/reqBodyCheck.js')
 
 
 registerLocker = async (req, res) => {
@@ -14,10 +15,11 @@ registerLocker = async (req, res) => {
             return res.status(404).json({ message: '登記抽籤時間已過' });
         }
 
-        const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
-        if(phone.length == 0 || !req.body.priority) {
+        if(reqBodyCheck.reqBodyCheck(req.body) == false){
             return res.status(404).json({ message: '資料內容錯誤'});
         }
+
+        const phone = phoneFormatter.format886PhoneNumber(req.body.phone);
 
         const checkMember = await memberService.isSubscriber(phone);
         if(!checkMember) {
@@ -41,7 +43,7 @@ registerLocker = async (req, res) => {
 searchLockerLottery = async (req, res) => {
     try {
         const phone = phoneFormatter.format886PhoneNumber(req.query.phone);//notice!! it's req.query!!
-        if(phone.length == 0) {
+        if(!phone.length) {
             return res.status(404).json({ message: '資料內容錯誤'});
         } 
         const checkMember = await memberService.isSubscriber(phone);
