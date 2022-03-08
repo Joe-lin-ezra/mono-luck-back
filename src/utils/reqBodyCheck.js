@@ -12,7 +12,7 @@ reqBodyCheck = (reqBody) => {
     if(prioritySplit.length>3) return false;
     
     for(let i of prioritySplit) {
-        if(i.length!=2 || parseInt(i)<1 || parseInt(i)>34) return false;
+        if(i.length!=2 || parseInt(i)<0 || parseInt(i)>34) return false;
     }
     return true;
 }
